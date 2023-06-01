@@ -1,0 +1,9 @@
+.terraform
+*.tfstate
+*.tfstate.backup
+.DS_Store
+.AppleDouble
+.LSOverride
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
