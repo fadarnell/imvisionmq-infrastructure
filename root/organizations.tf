@@ -25,6 +25,17 @@ resource "aws_organizations_account" "accounts_root" {
   }
 }
 
+resource "aws_organizations_account" "imvision_dev" {
+  name      = "IMvision Dev"
+  email     = "devops+imvision-dev@miquido.com"
+  role_name = "OrganizationAccountAccessRole"
+
+  # There is no AWS Organizations API for reading role_name on imported accounts
+  lifecycle {
+    ignore_changes = [role_name]
+  }
+}
+
 ################
 # SCP policies #
 ################
