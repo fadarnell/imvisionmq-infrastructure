@@ -36,6 +36,17 @@ resource "aws_organizations_account" "imvision_dev" {
   }
 }
 
+resource "aws_organizations_account" "imvision_qa" {
+  name      = "IMvision QA"
+  email     = "awsqaowner@imvisiondental.com"
+  role_name = "OrganizationAccountAccessRole"
+
+  # There is no AWS Organizations API for reading role_name on imported accounts
+  lifecycle {
+    ignore_changes = [role_name]
+  }
+}
+
 ################
 # SCP policies #
 ################
