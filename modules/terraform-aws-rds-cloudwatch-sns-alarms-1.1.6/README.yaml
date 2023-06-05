@@ -1,0 +1,78 @@
+---
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+# Name of this project
+name:  miquido-terraform-aws-rds-cloudwatch-sns-alarms
+
+# License of this project
+license: "APACHE2"
+
+# Badges to display
+badges: []
+
+# Short description of this project
+description: |-
+  Terraform module that configures important RDS alerts using CloudWatch and sends them to an SNS topic.
+
+  Create a set of sane RDS CloudWatch alerts for monitoring the health of an RDS instance.
+
+  ### Open source modules used:
+  * https://github.com/cloudposse/terraform-aws-rds-cloudwatch-sns-alarms
+usage: |-
+
+  | area    | metric           | comparison operator  | threshold | rationale                                                                                                                                                                                              |
+  |---------|------------------|----------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | Storage | BurstBalance     | `<`                  | 20 %      | 20 % of credits allow you to burst for a few minutes which gives you enough time to a) fix the inefficiency, b) add capacity or c) switch to io1 storage type.                                         |
+  | Storage | DiskQueueDepth   | `>`                  | 64        | This number is calculated from our experience with RDS workloads.                                                                                                                                      |
+  | Storage | FreeStorageSpace | `<`                  | 2 GB      | 2 GB usually provides enough time to a) fix why so much space is consumed or b) add capacity. You can also modify this value to 10% of your database capacity.                                         |
+  | CPU     | CPUUtilization   | `>`                  | 80 %      | Queuing theory tells us the latency increases exponentially with utilization. In practice, we see higher latency when utilization exceeds 80% and unacceptable high latency with utilization above 90% |
+  | CPU     | CPUCreditBalance | `<`                  | 20        | One credit equals 1 minute of 100% usage of a vCPU. 20 credits should give you enough time to a) fix the inefficiency, b) add capacity or c) don't use t2 type.                                        |
+  | Memory  | FreeableMemory   | `<`                  | 64 MB     | This number is calculated from our experience with RDS workloads.                                                                                                                                      |
+  | Memory  | SwapUsage        | `>`                  | 256 MB    | Sometimes you can not entirely avoid swapping. But once the database accesses paged memory, it will slow down.                                                                                         |
+
+examples: |-
+
+  See the [`examples/`](examples/) directory for working examples.
+
+  ```hcl
+  module "rds_instance" {
+    source               = "git::https://github.com/cloudposse/terraform-aws-rds.git?ref=master"
+    namespace            = "eg"
+    stage                = "prod"
+    name                 = "app"
+    allocated_storage    = "5"
+    storage_type         = "gp2"
+    database_name        = "wordpress"
+    database_user        = "admin"
+    database_password    = "xxxxxxxxxxxx"
+    database_port        = 3306
+    db_parameter_group   = "mysql5.7"
+    engine               = "mysql"
+    engine_version       = "5.7.17"
+    major_engine_version = "5.7"
+    subnet_ids           = ["sb-xxxxxxxxx", "sb-xxxxxxxxx"]
+    vpc_id               = "vpc-xxxxxxxx"
+  }
+
+  module "rds_alarms" {
+    source         = "git::https://github.com/cloudposse/terraform-aws-rds-cloudwatch-sns-alarms.git?ref=master"
+    db_instance_id = module.rds_instance.instance_id
+  }
+  ```
+
+# Other files to include in this README from the project folder
+include:
+  - "docs/terraform.md"
+  - "docs/targets.md"
+
+related: []
+
+# Contributors to this project
+contributors:
+  - name: "Jamie Nelson"
+    github: "Jamie-BitFlight"
+  - name: "Erik Osterman"
+    github: "osterman"

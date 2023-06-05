@@ -1,0 +1,67 @@
+name: terraform-tfstate-backend
+repos:
+  gitlab: miquido/terraform/terraform-tfstate-backend
+badges: []
+related: []
+description: |-
+  Terraform module to provision S3 Bucket for Terraform State Backend and DynamoDB Table for state locking.
+
+  ### Open source modules used:
+  * https://github.com/cloudposse/terraform-aws-tfstate-backend
+usage: |-
+  1. Use module to create bucket
+
+      ```
+      terraform {}
+
+      module "tfstate-backend" {
+          source      = "git::ssh://git@gitlab.com:miquido/terraform/terraform-tfstate-backend.git?ref=master"
+          name        = "miquido"
+          environment = "devops"
+      }
+
+      output "config" {
+          value = "${module.tfstate-backend.tf_backend_config}"
+      }
+      ```
+
+  2. Run commands
+
+      ```bash
+      terraform init
+      terraform apply
+
+      # in output there should be rendered tf backend config
+      ```
+
+  3. Add terraform backend
+
+      ```
+      terraform {
+          backend "s3" {
+              region         = "eu-west-2"
+              bucket         = "miquido-devops-terraform-state"
+              key            = "terraform.tfstate"
+              dynamodb_table = "miquido-devops-terraform-state-lock"
+              encrypt        = true
+          }
+      }
+
+      module "tfstate-backend" {
+          ...
+      }
+      ```
+  4. Run commands again
+
+      ```bash
+      terraform init
+      terraform apply
+      ```
+
+  5. When asked to copy local tfstate to s3 bucket, answer yes.
+include:
+  - "docs/targets.md"
+  - "docs/terraform.md"
+contributors:
+  - name: "Konrad Obal"
+    github: "k911"

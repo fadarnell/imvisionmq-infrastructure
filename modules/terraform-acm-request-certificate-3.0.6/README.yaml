@@ -1,0 +1,73 @@
+---
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+# Name of this project
+name: terraform-acm-request-certificate
+
+license: ""
+bitbucket_repo: miquido/terraform-acm-request-certificate
+
+# Badges to display
+badges: []
+
+related:
+  - name: "terraform-alb"
+    description: "Terraform module to provision a standard ALB for HTTP/HTTP traffic"
+    url: "https://bitbucket.org/miquido/terraform-alb"
+
+# Short description of this project
+description: |-
+  Terraform module to request an ACM certificate for a domain and add a CNAME record to the DNS zone to complete certificate validation
+
+# How to use this project
+usage: |-
+  This example will request an SSL certificate for `example.com` domain
+
+  ```hcl
+  module "acm_request_certificate" {
+    source                            = "git::ssh://git@bitbucket.org/miquido/terraform-acm-request-certificate.git?ref=master"
+
+    providers = {
+      aws.acm = aws
+      aws.dns = aws
+    }
+
+    domain_name                       = "example.com"
+    process_domain_validation_options = true
+    ttl                               = "300"
+    hosted_zone_id                    = "xxxxx"
+  }
+  ```
+
+  This example will request an SSL certificate for `example.com` domain and all its subdomains `*.example.com`
+
+  ```hcl
+  module "acm_request_certificate" {
+    source                            = "git::ssh://git@bitbucket.org/miquido/terraform-acm-request-certificate.git?ref=master"
+
+    providers = {
+      aws.acm = aws
+      aws.dns = aws
+    }
+
+    domain_name                       = "example.com"
+    process_domain_validation_options = true
+    ttl                               = "300"
+    subject_alternative_names         = ["*.example.com"]
+    hosted_zone_id                    = "xxxxx"
+  }
+  ```
+
+include:
+  - "docs/targets.md"
+  - "docs/terraform.md"
+
+# Contributors to this project
+contributors:
+  - name: "Konrad Obal"
+    github: "k911"
+  - name: "Maksymilian Lewicki"
+    github: "maksymilian-lewicki"

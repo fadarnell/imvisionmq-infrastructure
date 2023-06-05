@@ -1,5 +1,5 @@
 module "tfstate-backend" {
-  source = "git::ssh://git@gitlab.com/miquido/terraform/terraform-tfstate-backend.git?ref=2.3.20"
+  source = "../modules/terraform-tfstate-backend-2.3.20"
 
   name                               = var.project
   environment                        = var.environment
@@ -8,7 +8,7 @@ module "tfstate-backend" {
 }
 
 module "iam-roles" {
-  source     = "git::ssh://git@gitlab.com/miquido/terraform/terraform-iam-roles.git?ref=4.3.9"
+  source     = "../modules/terraform-iam-roles-4.3.9"
   principals = [var.authentication_account_no]
   tags       = var.tags
 }

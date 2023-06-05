@@ -1,0 +1,94 @@
+name: miquido-iam-roles
+repos:
+  gitlab: miquido/terraform/miquido-iam-roles
+badges: []
+related: []
+description: |-
+  Roles provisioned by module:
+
+  - `AdministratorAccess`
+
+      administrator access policy to assume from authentication account
+
+  - `ReadOnlyAccess`
+
+      read only access policy to assume from authentication account
+
+  - `AlexaDeveloper`
+
+      full access policy to: `Lambda`, `Lex` and `Alexa` to assume from authentication account
+
+  - `SuperAdministratorAccess`
+
+      same as `AdministratorAccess` with ability to manage CloudTrail resources
+
+usage: |-
+  ```hcl
+  module "iam-roles" {
+    source = "git::ssh://git@gitlab.com:miquido/terraform/terraform-iam-roles.git?ref=master"
+    principals = ["xxxxx"]
+  }
+  ```
+
+  ### Enable only specific roles
+
+  Not always all roles are desirable. To enable only one set of roles, use module like bellow.
+
+  ```hcl
+  module "iam-roles" {
+    source = "git::ssh://git@gitlab.com:miquido/terraform/terraform-iam-roles.git?ref=master"
+
+    principals            = ["xxxxx"]
+    role_admin_enabled    = true
+    role_readonly_enabled = true
+  }
+  ```
+
+  ### Multiple accounts
+
+  #### To allow assuming roles from different AWS accounts you can provide serveal prinicipals
+
+  module "iam-roles" {
+    source = "git::ssh://git@gitlab.com:miquido/terraform/terraform-iam-roles.git?ref=master"
+
+    principals = ["arn:aws:iam::xxxxone:root", "arn:aws:iam::xxxxtwo:root"]
+  }
+
+  #### To use multiple IAM roles modules inside one AWS account for different reasons, you can use unique `roles_prefix` and `policies_prefix` to avoid IAM resources' names collisions.
+
+  ```hcl
+  module "iam-roles-account-one" {
+    source = "git::ssh://git@gitlab.com:miquido/terraform/terraform-iam-roles.git?ref=master"
+
+    principals            = ["xxxxxone"]
+    policies_prefix       = "AccountOne"
+    roles_prefix          = "AccountOne"
+    role_admin_enabled    = false
+    role_readonly_enabled = true
+
+    tags = {
+      "Heritage" = "Account One"
+    }
+  }
+
+  module "iam-roles-account-two" {
+    source = "git::ssh://git@gitlab.com:miquido/terraform/terraform-iam-roles.git?ref=master"
+
+    principals            = ["xxxxxtwo"]
+    policies_prefix       = "AccountTwo"
+    roles_prefix          = "AccountTwo"
+    role_admin_enabled    = true
+    role_readonly_enabled = true
+
+    tags = {
+      "Heritage" = "Account Two"
+    }
+  }
+  ```
+
+include:
+  - "docs/targets.md"
+  - "docs/terraform.md"
+contributors:
+  - name: "Konrad Obal"
+    github: "k911"

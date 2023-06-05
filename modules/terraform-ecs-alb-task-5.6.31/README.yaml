@@ -1,0 +1,13 @@
+name: miquido-terraform-ecs-alb-task
+bitbucket_repo: miquido/terraform-ecs-alb-task
+badges: []
+related: []
+description: |-
+  Provide ECS Service and Task configuration with ALB attachement
+# usage: ""
+include:
+  - "docs/targets.md"
+  - "docs/terraform.md"
+contributors:
+  - name: "Konrad Obal"
+    github: "k911"

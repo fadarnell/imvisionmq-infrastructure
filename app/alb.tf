@@ -1,5 +1,5 @@
 module "alb" {
-  source                              = "git::ssh://git@gitlab.com/miquido/terraform/terraform-alb.git?ref=tags/3.1.17"
+  source                              = "../modules/terraform-alb-3.1.17"
   name                                = ""
   domain                              = local.app_domain
   project                             = var.project

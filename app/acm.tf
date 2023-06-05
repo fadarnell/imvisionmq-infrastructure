@@ -1,5 +1,5 @@
 module "acm_alb" {
-  source = "git::ssh://git@gitlab.com/miquido/terraform/terraform-acm-request-certificate.git?ref=tags/3.0.6"
+  source = "../modules/terraform-acm-request-certificate-3.0.6"
 
   providers = {
     aws.acm = aws

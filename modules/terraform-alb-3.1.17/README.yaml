@@ -1,0 +1,13 @@
+name: miquido-terraform-alb
+bitbucket_repo: miquido/terraform-alb
+badges: []
+related: []
+description: |-
+  This module Application Load Balancer along with AWS ACM TLS/SSL certificate via ACM Request
+# usage: ""
+include:
+  - "docs/terraform.md"
+  - "docs/targets.md"
+contributors:
+  - name: "Konrad Obal"
+    github: "k911"

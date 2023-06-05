@@ -1,0 +1,32 @@
+name: terraform-vpc
+repos:
+  gitlab: miquido/terraform/terraform-vpc
+badges: []
+related: []
+description: |-
+  Provides AWS VPC with Private Subnets and optional NAT Gateways.
+usage: |-
+
+  ### With single NAT gateway
+
+  ```hcl
+  module "vpc" {
+    source                          = "git::ssh://git@gitlab.com:miquido/terraform/terraform-vpc.git?ref=master"
+    name                            = "main"
+    project                         = "example"
+    environment                     = "dev"
+    tags                            = var.tags
+    azs                             = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
+    nat_type                        = "gateway-single"
+    enable_ecs_fargate_private_link = false
+  }
+  ```
+
+  You can also deploy VPC without NAT, with NAT instance or NAT gateway per AZ by modyfing value of `nat_type` variable.
+
+include:
+  - "docs/targets.md"
+  - "docs/terraform.md"
+contributors:
+  - name: "Konrad Obal"
+    github: "k911"

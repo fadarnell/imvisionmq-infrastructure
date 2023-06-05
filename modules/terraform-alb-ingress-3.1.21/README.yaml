@@ -1,0 +1,13 @@
+name: miquido-terraform-alb-ingress
+bitbucket_repo: miquido/terraform-alb-ingress
+badges: []
+related: []
+description: |-
+  Quickly create ALB rules to newly created Target Group
+# usage: ""
+include:
+  - "docs/targets.md"
+  - "docs/terraform.md"
+contributors:
+  - name: "Konrad Obal"
+    github: "k911"

@@ -1,5 +1,5 @@
 module "vpc" {
-  source                          = "git::ssh://git@gitlab.com/miquido/terraform/terraform-vpc.git?ref=tags/10.0.0"
+  source                          = "../modules/terraform-vpc-10.0.0"
   name                            = "main"
   project                         = var.project
   environment                     = var.environment

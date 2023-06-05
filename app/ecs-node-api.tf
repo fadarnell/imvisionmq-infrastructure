@@ -9,7 +9,7 @@ locals {
 }
 
 module "alb-ingress-node-api" {
-  source                                     = "git::ssh://git@gitlab.com/miquido/terraform/terraform-alb-ingress.git?ref=tags/3.1.21"
+  source                                     = "../modules/terraform-alb-ingress-3.1.21"
   name                                       = var.node_api_ecs_settings.name
   project                                    = var.project
   environment                                = var.environment
@@ -41,7 +41,7 @@ resource "aws_route53_record" "node_api" {
 }
 
 module "ecs-alb-task-node-api" {
-  source = "git::ssh://git@gitlab.com/miquido/terraform/terraform-ecs-alb-task.git?ref=tags/5.6.31"
+  source = "../modules/terraform-ecs-alb-task-5.6.31"
 
   name                                      = local.api_name
   project                                   = var.project

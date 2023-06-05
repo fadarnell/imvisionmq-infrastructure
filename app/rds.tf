@@ -16,7 +16,8 @@ resource "random_password" "rds_main_password" {
 
 module "rds-instance" {
   count                        = var.rds_type == "instance" ? 1 : 0
-  source                       = "git::https://github.com/cloudposse/terraform-aws-rds?ref=tags/0.42.1"
+  source                       = "cloudposse/rds/aws"
+  version                      = "0.42.1"
   name                         = "database"
   namespace                    = var.project
   stage                        = var.environment
@@ -48,7 +49,7 @@ module "rds-instance" {
 
 module "rds-instance-alarms" {
   count          = var.rds_type == "instance" ? 1 : 0
-  source         = "git::ssh://git@gitlab.com/miquido/terraform/terraform-aws-rds-cloudwatch-sns-alarms.git?ref=tags/1.1.6"
+  source         = "../modules/terraform-aws-rds-cloudwatch-sns-alarms-1.1.6"
   name           = module.rds-instance[count.index].instance_id
   stage          = var.environment
   namespace      = var.project
