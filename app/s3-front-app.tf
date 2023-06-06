@@ -46,10 +46,41 @@ module "frontend_app" {
   ]
 }
 
-# resource "aws_s3_bucket_public_access_block" "front" {
-#   bucket                  = local.frontend_app_s3_bucket
-#   block_public_acls       = true
-#   block_public_policy     = true
-#   ignore_public_acls      = true
-#   restrict_public_buckets = true
-# }
+data "aws_iam_policy_document" "s3-frontend-upload-policy" {
+  statement {
+    actions = [
+      "s3:PutObject",
+      "s3:ListBucket",
+      "s3:DeleteObject",
+    ]
+
+    resources = [
+      "arn:aws:s3:::${local.frontend_app_s3_bucket}/*",
+      "arn:aws:s3:::${local.frontend_app_s3_bucket}",
+    ]
+  }
+}
+
+data "aws_iam_policy_document" "frontend-cloudfront-invalidation-policy" {
+  statement {
+    actions = [
+      "cloudfront:CreateInvalidation",
+      "cloudfront:GetInvalidation",
+      "cloudfront:ListInvalidations",
+    ]
+
+    resources = [
+      local.frontend_app_cf_arn,
+    ]
+  }
+}
+
+resource "aws_iam_user_policy" "frontend-cloudfront-invalidation-policy" {
+  user   = module.iam-user-cicd.user_name
+  policy = data.aws_iam_policy_document.frontend-cloudfront-invalidation-policy.json
+}
+
+resource "aws_iam_user_policy" "frontend-s3-upload-policy" {
+  user   = module.iam-user-cicd.user_name
+  policy = data.aws_iam_policy_document.s3-frontend-upload-policy.json
+}
