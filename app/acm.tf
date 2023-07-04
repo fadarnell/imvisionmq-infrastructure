@@ -22,7 +22,7 @@ module "acm_dynamic" {
     aws.dns = aws
   }
 
-  domain_name                 = local.app_domain
+  domain_name                 = "dynamic.${local.app_domain}"
   ttl                         = "300"
   subject_alternative_names   = ["*.dynamic.${local.app_domain}"]
   hosted_zone_id              = aws_route53_zone.app_domain.zone_id
