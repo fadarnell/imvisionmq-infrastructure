@@ -91,6 +91,7 @@ variable "node_api_ecs_settings" {
     max_capacity                   = number
     cpu_utilization_high_threshold = number
     scale_up_adjustment            = number
+    desired_count                  = number
   })
   description = "Task settings image tag, cpu, memory, autoscaling minimum capacity and maximum capacity, cpu utilization high threshold, scale up adjustment"
 }
