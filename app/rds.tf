@@ -35,7 +35,7 @@ module "rds-instance" {
   storage_encrypted            = true
   multi_az                     = var.db_multi_az
   engine                       = "postgres"
-  engine_version               = "14.6"
+  engine_version               = "14.7"
   major_engine_version         = "14"
   instance_class               = var.aws_rds_instance_class
   db_parameter_group           = "postgres14"
@@ -45,6 +45,7 @@ module "rds-instance" {
   performance_insights_enabled = var.aws_rds_performance_insights_enabled
   allow_major_version_upgrade  = var.aws_rds_allow_major_version_upgrade
   apply_immediately            = var.aws_rds_apply_immediately
+  ca_cert_identifier           = "rds-ca-rsa2048-g1"
 }
 
 module "rds-instance-alarms" {
