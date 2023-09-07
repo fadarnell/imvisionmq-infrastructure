@@ -26,7 +26,7 @@ module "app" {
   node_api_ecs_settings = {
     name                           = "node-api"
     gitlab_repo                    = "46489914" //https://gitlab.com/imvisionmq/imvisionmq-backend
-    image_tag                      = "tbd"
+    image_tag                      = "994669992-0c77e87c"
     task_cpu                       = 256
     task_memory                    = 512
     min_capacity                   = 1
