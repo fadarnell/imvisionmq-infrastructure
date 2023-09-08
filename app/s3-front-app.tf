@@ -2,7 +2,7 @@ locals {
   frontend_app_cf_id     = module.frontend_app.cf_id
   frontend_app_cf_arn    = module.frontend_app.cf_arn
   frontend_app_s3_bucket = module.frontend_app.s3_bucket
-  frontend_app_domain    = "${var.frontend_app_name}.${local.app_domain}"
+  frontend_app_domain    = var.environment == "prod" ? "${local.app_domain}" : "${var.frontend_app_name}.${local.app_domain}"
 }
 
 module "frontend_app" {
