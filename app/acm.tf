@@ -16,7 +16,7 @@ module "acm_alb" {
 
 module "acm_dynamic" {
   source = "../modules/terraform-acm-request-certificate-3.0.6"
-
+  count  = var.environment == "dev" ? 1 : 0
   providers = {
     aws.acm = aws
     aws.dns = aws

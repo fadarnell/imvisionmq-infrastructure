@@ -13,6 +13,6 @@ module "alb" {
   access_logs_s3_bucket_force_destroy = false
   access_logs_enabled                 = true
   acm_certificate_arn                 = module.acm_alb.arn
-  additional_certs                    = [module.acm_dynamic.arn]
+  additional_certs                    = var.environment == "dev" ? [module.acm_dynamic.arn] : []
   idle_timeout                        = 600
 }

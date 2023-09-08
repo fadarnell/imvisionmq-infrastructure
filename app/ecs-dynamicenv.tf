@@ -1,5 +1,6 @@
 module "dynamic-environment" {
   source             = "../modules/terraform-aws-gitlab-dynamic-environments-1.0.2"
+  count              = var.environment == "dev" ? 1 : 0
   ecs_cluster_arn    = aws_ecs_cluster.main.arn
   ecs_cluster_name   = aws_ecs_cluster.main.name
   project            = var.project
