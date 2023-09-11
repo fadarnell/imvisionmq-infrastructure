@@ -1,6 +1,7 @@
 module "app" {
   providers = {
-    aws = aws
+    aws     = aws
+    aws.ses = aws
   }
 
   source              = "../app"
@@ -36,7 +37,8 @@ module "app" {
     desired_count                  = 1
   }
 
-  tags       = var.tags
-  aws_region = var.aws_region
-  aws_azs    = var.aws_azs
+  tags           = var.tags
+  aws_region     = var.aws_region
+  aws_azs        = var.aws_azs
+  aws_ses_region = var.aws_ses_region
 }

@@ -18,3 +18,5 @@ project = "imvision"
 top_domain = "imvisiondental.com"
 
 aws_azs = ["us-east-1a", "us-east-1b", "us-east-1c"]
+
+aws_ses_region = "us-east-1"

@@ -117,3 +117,8 @@ variable "frontend_gitlab_repo" {
   type        = string
   description = "CMS application gitlab path"
 }
+
+variable "aws_ses_region" {
+  type        = string
+  description = "AWS Region for SES"
+}

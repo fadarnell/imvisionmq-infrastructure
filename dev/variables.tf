@@ -50,3 +50,8 @@ variable "top_domain" {
   type        = string
   description = "DNS name of top domain"
 }
+
+variable "aws_ses_region" {
+  type        = string
+  description = "AWS Region for SES"
+}

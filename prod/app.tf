@@ -1,6 +1,7 @@
 module "app" {
   providers = {
-    aws = aws
+    aws     = aws
+    aws.ses = aws
   }
 
   source              = "../app"
@@ -9,7 +10,7 @@ module "app" {
   environment         = var.environment
   aws_used_account_no = var.aws_used_account_no
 
-#   force_new_deployment = var.force_new_deployment
+  force_new_deployment = var.force_new_deployment
 
   aws_rds_instance_class               = "db.t4g.small"
   aws_rds_performance_insights_enabled = true
@@ -29,14 +30,15 @@ module "app" {
     image_tag                      = "tbd"
     task_cpu                       = 512
     task_memory                    = 1024
-    min_capacity                   = 1
+    min_capacity                   = 0
     max_capacity                   = 3
     cpu_utilization_high_threshold = 80
     scale_up_adjustment            = 1
-    desired_count                  = 1
+    desired_count                  = 0
   }
 
-  tags       = var.tags
-  aws_region = var.aws_region
-  aws_azs    = var.aws_azs
+  tags           = var.tags
+  aws_region     = var.aws_region
+  aws_azs        = var.aws_azs
+  aws_ses_region = var.aws_ses_region
 }
