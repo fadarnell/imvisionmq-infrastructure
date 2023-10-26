@@ -73,6 +73,7 @@ module "ecs-alb-task-node-api" {
   ecs_cluster_name                          = aws_ecs_cluster.main.name
   platform_version                          = "1.4.0"
   exec_enabled                              = var.ecs_task_exec_enabled
+  task_role_arn                             = aws_iam_role.ecs_node_api_task_role.arn
   force_new_deployment                      = true
 
   capacity_provider_strategies = [
@@ -110,4 +111,77 @@ module "ecs-alb-task-node-api" {
       value = local.rds_db_user
     },
   ]
+}
+
+resource "aws_iam_role" "ecs_node_api_task_role" {
+  name = "${var.project}-${var.environment}-node-api-task-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        },
+        Effect = "Allow",
+        Sid    = ""
+      }
+    ]
+  })
+}
+
+####################
+# Node backend access policies
+####################
+resource "aws_iam_policy" "s3_storage_policy" {
+  name = "${var.project}-${var.environment}-backend-s3-storage-policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:*"
+        ],
+        Resource = [
+          "${aws_s3_bucket.s3-tenant-storage.arn}",
+          "${aws_s3_bucket.s3-tenant-storage.arn}/*",
+          "${aws_s3_bucket.s3-tenant-secure-storage.arn}",
+          "${aws_s3_bucket.s3-tenant-secure-storage.arn}/*",
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "s3_storage_policy_attach" {
+  role       = aws_iam_role.ecs_node_api_task_role.name
+  policy_arn = aws_iam_policy.s3_storage_policy.arn
+}
+
+resource "aws_iam_policy" "ssm_default_policy" {
+  name = "${var.project}-${var.environment}-ssm-default-policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "ssmmessages:OpenDataChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:CreateControlChannel"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ssm_default_policy_attach" {
+  role       = aws_iam_role.ecs_node_api_task_role.name
+  policy_arn = aws_iam_policy.ssm_default_policy.arn
 }

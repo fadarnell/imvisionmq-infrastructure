@@ -189,13 +189,31 @@ resource "aws_ses_receipt_rule" "ses-system-s3-store" {
 
 resource "aws_s3_bucket" "ses-store" {
   bucket        = local.ses_s3_store_bucket
-  acl           = "private"
   force_destroy = true
   tags          = var.tags
+}
 
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "ses-store-versioning" {
+  bucket = aws_s3_bucket.ses-store.id
+
+  versioning_configuration {
+    status = "Enabled"
   }
+}
+
+resource "aws_s3_bucket_ownership_controls" "ses-store-ownership" {
+  bucket = aws_s3_bucket.ses-store.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "ses-store-acl" {
+  depends_on = [aws_s3_bucket_ownership_controls.ses-store-ownership]
+
+  bucket = aws_s3_bucket.ses-store.id
+  acl    = "private"
 }
 
 module "ses-store" {
