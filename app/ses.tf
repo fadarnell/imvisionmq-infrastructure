@@ -6,6 +6,7 @@ locals {
   ses_system_dmarc_rua_address = "devops+imvision@miquido.com"
   ses_system_mail_from_domain  = "bounces.${local.ses_system_domain}"
   mail_recipient               = "devops+imvision@miquido.com"
+  ses_lab_mail                 = "lab.${local.ses_system_domain}"
   mail_forwarder_sender        = "noreply-forwarder@${local.ses_system_domain}"
   s3_bucket_ses_store          = aws_s3_bucket.ses-store.arn
 }
@@ -71,12 +72,21 @@ resource "aws_route53_record" "ses-system-mail-from-spf" {
   records = ["v=spf1 include:amazonses.com -all"]
 }
 
+resource "aws_route53_record" "ses_lab_mail-spf" {
+  zone_id = local.ses_zone_id
+  name    = local.ses_lab_mail
+  type    = "TXT"
+  ttl     = "600"
+  records = ["v=spf1 include:amazonses.com -all"]
+}
+
+
 resource "aws_route53_record" "ses-system-dmarc" {
   zone_id = local.ses_zone_id
   name    = "_dmarc.${local.ses_system_domain}"
   type    = "TXT"
   ttl     = "600"
-  records = ["v=DMARC1;p=reject;rua=mailto:${local.ses_system_dmarc_rua_address}"]
+  records = ["v=DMARC1;p=quarantine;rua=mailto:${local.ses_system_dmarc_rua_address}"]
 }
 
 ##################

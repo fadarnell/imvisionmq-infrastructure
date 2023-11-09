@@ -30,11 +30,11 @@ module "app" {
     image_tag                      = "tbd"
     task_cpu                       = 512
     task_memory                    = 1024
-    min_capacity                   = 1
+    min_capacity                   = 2
     max_capacity                   = 3
     cpu_utilization_high_threshold = 80
     scale_up_adjustment            = 1
-    desired_count                  = 1
+    desired_count                  = 2
   }
 
   tags           = var.tags
