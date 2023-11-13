@@ -113,6 +113,11 @@ variable "frontend_app_name" {
   description = "Front end application name"
 }
 
+variable "public_resources_name" {
+  type        = string
+  description = "Front end application name"
+}
+
 variable "frontend_gitlab_repo" {
   type        = string
   description = "CMS application gitlab path"

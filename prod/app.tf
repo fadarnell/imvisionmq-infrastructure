@@ -21,8 +21,9 @@ module "app" {
   bastion_enabled       = true
   ecs_task_exec_enabled = true
 
-  frontend_app_name    = ""
-  frontend_gitlab_repo = "46489958"
+  frontend_app_name     = ""
+  frontend_gitlab_repo  = "46489958"
+  public_resources_name = "public-resources"
 
   node_api_ecs_settings = {
     name                           = "node-api"
