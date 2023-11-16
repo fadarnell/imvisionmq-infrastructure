@@ -23,6 +23,8 @@ module "app" {
 
   frontend_app_name    = "admin"
   frontend_gitlab_repo = "46489958"
+  public_resources_name = "public-resources"
+  bigquery_dataset = "dev"
 
   node_api_ecs_settings = {
     name                           = "node-api"

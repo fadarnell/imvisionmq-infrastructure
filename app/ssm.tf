@@ -3,5 +3,3 @@ resource "aws_ssm_parameter" "rds_password" {
   type  = "SecureString"
   value = random_password.rds_main_password.result
 }
-
-

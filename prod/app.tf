@@ -24,6 +24,7 @@ module "app" {
   frontend_app_name     = ""
   frontend_gitlab_repo  = "46489958"
   public_resources_name = "public-resources"
+  bigquery_dataset = "PROD"
 
   node_api_ecs_settings = {
     name                           = "node-api"

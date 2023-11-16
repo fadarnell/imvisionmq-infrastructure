@@ -1,0 +1,16 @@
+{
+  "name": "bigquery-lambda",
+  "version": "0.0.1",
+  "description": "Push data from Database to BigQuery",
+  "main": "handler.ts",
+  "private": true,
+  "scripts": {
+    "format": "prettier --write \"**/*.ts\" && tslint -p tsconfig.json -c tslint.json --fix"
+  },
+  "dependencies": {
+    "@google-cloud/bigquery": "^5.6.0",
+    "dotenv": "^8.2.0",
+    "pg": "^8.6.0"
+  },
+  "packageManager": "yarn@1.22.19"
+}

@@ -118,6 +118,11 @@ variable "public_resources_name" {
   description = "Front end application name"
 }
 
+variable "bigquery_dataset" {
+  type    = string
+  default = ""
+}
+
 variable "frontend_gitlab_repo" {
   type        = string
   description = "CMS application gitlab path"
