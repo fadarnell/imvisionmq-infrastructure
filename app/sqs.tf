@@ -10,12 +10,12 @@ resource "aws_sqs_queue_policy" "async_upload_queue_policy" {
     Id      = "SQSPolicy"
     Statement = [
       {
-        Effect    = "Allow"
+        Effect = "Allow"
         Principal = {
           AWS = aws_iam_role.ecs_node_api_task_role.arn
         }
-        Action    = ["SQS:ReceiveMessage", "SQS:DeleteMessage"]
-        Resource  = aws_sqs_queue.async_upload_queue.arn
+        Action   = ["SQS:ReceiveMessage", "SQS:DeleteMessage"]
+        Resource = aws_sqs_queue.async_upload_queue.arn
       },
       {
         Effect    = "Allow",
@@ -40,7 +40,7 @@ resource "aws_s3_bucket_notification" "internal_bucket_notification" {
 
   queue {
     queue_arn     = aws_sqs_queue.async_upload_queue.arn
-    events        = ["s3:ObjectCreated:Put", "s3:ObjectCreated:Post"]
+    events        = ["s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:CompleteMultipartUpload"]
     filter_prefix = "app/"
   }
 
@@ -52,7 +52,7 @@ resource "aws_s3_bucket_notification" "secure_bucket_notification" {
 
   queue {
     queue_arn     = aws_sqs_queue.async_upload_queue.arn
-    events        = ["s3:ObjectCreated:Put", "s3:ObjectCreated:Post"]
+    events        = ["s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:CompleteMultipartUpload"]
     filter_prefix = "app/"
   }
 
