@@ -33,6 +33,7 @@ module "bigquery-sync-lambda" {
     BG_USERS_ID                = "users"
     BG_USER_LINK_ID            = "tenant_link_users"
     BG_USER_ROLES_ID           = "user_roles"
+    BG_CONFIG_LINK_ID          = "tenant_link_config"
 
     BG_DATASET_ID = "imvision_${var.bigquery_dataset}_backend"
 

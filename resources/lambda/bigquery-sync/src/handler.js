@@ -18,6 +18,7 @@ const {
   getTenantPatientsLinks,
   getTenantRolesLinks,
   getTenantUsersLinks,
+  getTenantConfigLinks,
 } = require("./services/database.service");
 const {
   BIGQUERY_TABLE_USERS_ID,
@@ -33,6 +34,7 @@ const {
   BIGQUERY_TABLE_ROLE_LINK_ID,
   BIGQUERY_TABLE_USER_LINK_ID,
   BIGQUERY_TABLE_CASE_CARDS_TRANS_LOG_ID,
+  BIGQUERY_TABLE_CONFIG_LINK_ID,
 } = require("../constants");
 
 const Getters = [
@@ -49,6 +51,7 @@ const Getters = [
   { getter: getTenantRolesLinks, tableId: BIGQUERY_TABLE_ROLE_LINK_ID },
   { getter: getTenantPatientsLinks, tableId: BIGQUERY_TABLE_PATIENTS_LINK_ID },
   { getter: getTenantCaseCardsLinks, tableId: BIGQUERY_TABLE_CASE_CARD_LINK_ID },
+  { getter: getTenantConfigLinks, tableId: BIGQUERY_TABLE_CONFIG_LINK_ID },
 ];
 
 const sync = async () => {

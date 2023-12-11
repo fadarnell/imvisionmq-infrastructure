@@ -215,6 +215,15 @@ const getTenantConfig = async () => {
   );
 };
 
+const getTenantConfigLinks = async () => {
+  return query(
+    `
+    SELECT id, resource_id, organization_id, unit_id
+      FROM tenant_link.tenant_link_config;
+  `
+  );
+};
+
 module.exports = {
   getUsers,
   getOrganizations,
@@ -230,4 +239,5 @@ module.exports = {
   getTenantRolesLinks,
   getTenantPatientsLinks,
   getTenantCaseCardsLinks,
+  getTenantConfigLinks,
 };
